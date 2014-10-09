@@ -14,8 +14,8 @@
 (defn- start-dynamo
   "Start DynamoDB Local with the given options"
   [dir port in-memory? db-path]
-  (let [lib-path (format "%s/%s/DynamoDBLocal_lib" dir dynamodb-local-version)
-        jar-path (format "%s/%s/DynamoDBLocal.jar" dir dynamodb-local-version)
+  (let [lib-path (str (io/file dir dynamodb-local-version "DynamoDBLocal_lib"))
+        jar-path (str (io/file dir dynamodb-local-version "DynamoDBLocal.jar"))
         command (cond-> (format "java -Djava.library.path=%s -jar %s -port %s" lib-path jar-path port)
                         in-memory? (str " -inMemory")
                         (and (seq db-path) (not in-memory?)) (str " -dbPath " db-path))]
