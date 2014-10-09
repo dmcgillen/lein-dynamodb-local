@@ -12,7 +12,7 @@
              (.toString))))
 
 (defn- start-dynamo
-  "Start DynamoDB local with the given options"
+  "Start DynamoDB Local with the given options"
   [dir port in-memory? db-path]
   (let [lib-path (format "%s/%s/DynamoDBLocal_lib" dir dynamodb-local-version)
         jar-path (format "%s/%s/DynamoDBLocal.jar" dir dynamodb-local-version)
