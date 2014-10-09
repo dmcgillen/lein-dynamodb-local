@@ -6,5 +6,5 @@
   :eval-in-leiningen true
   :dependencies [[net.lingala.zip4j/zip4j "1.3.2"]]
   :plugins [[lein-release "1.0.5"]]
-  :lein-release {:deploy-via :clojar
+  :lein-release {:deploy-via :clojars
                  :clojars-url "clojars@clojars.org:"})
