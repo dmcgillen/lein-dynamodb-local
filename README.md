@@ -45,7 +45,7 @@ Note: This should not be used in conjunction with the `:db-path` parameter. If i
 
 #### :db-path
 
-Set the path that DynamoDB Local will write its database file to (defaults to the current directory).
+Set the path that DynamoDB Local will write its database file to (defaults to the current directory). If a relative path is used, it will be relative to the current directory.
 
 Note: This should not be used in conjunction with the `:in-memory?` parameter. If it is, `:db-path` will be ignored.
 
