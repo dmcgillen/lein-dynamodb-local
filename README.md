@@ -27,7 +27,7 @@ You can set some parameters by adding the `:dynamodb-local` keyword to your proj
 
 #### :port
 
-Set the port that you want DynamoDB Local to run on (defaults to 8080).
+Set the port that you want DynamoDB Local to run on (defaults to 8000).
 
 ```clojure
 :dynamodb-local {:port 12345}
