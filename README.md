@@ -21,6 +21,8 @@ DynamoDB Local can be started without running any other tasks if you so wish:
 
 Killing the process (e.g. with <kbd>Ctrl</kbd>+<kbd>C</kbd>) will shutdown DynamoDB Local.
 
+If run as a background process (e.g. `$ lein dynamodb-local &`) all child processes should be terminated upon completion (e.g. `pkill -P parent-process-id`).
+
 ### Configuration
 
 You can set some parameters by adding the `:dynamodb-local` keyword to your project.clj.
