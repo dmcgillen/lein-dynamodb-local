@@ -3,6 +3,7 @@
             [leiningen.core.main :as main])
   (:import [java.nio.file Files]
            [java.nio.file.attribute FileAttribute]
+           [org.apache.commons.io FileUtils]
            [net.lingala.zip4j.core ZipFile]))
 
 (def ^:private dynamodb-local-version "dynamodb_local_2014-04-24")
@@ -38,9 +39,16 @@
       (io/copy zip-stream temp-zip))
     (.extractAll (ZipFile. temp-zip) dir)))
 
+(defn- delete-directory-on-shutdown
+  "Delete a directory when the JVM shuts down"
+  [dir]
+  (.addShutdownHook (Runtime/getRuntime)
+                    (Thread. (fn [] (FileUtils/deleteDirectory (io/file dir))))))
+
 (defn dynamodb-local
   "Run a local DynamoDB for the lifetime of the given task"
   [project & args]
+  (delete-directory-on-shutdown @temp-directory)
   (unpack-dynamo @temp-directory)
   (let [{:keys [port in-memory? db-path]} (dynamo-options project)
         dynamo-process (start-dynamo @temp-directory port in-memory? db-path)]
