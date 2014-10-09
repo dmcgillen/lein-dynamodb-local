@@ -26,7 +26,7 @@
   [project]
   (merge {:port 8000
           :in-memory? false
-          :db-path (.getAbsolutePath (io/file "."))}
+          :db-path "."}
          (:dynamodb-local project)))
 
 (defn- unpack-dynamo
