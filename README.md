@@ -5,6 +5,10 @@ A Leiningen 2 plugin providing a local DynamoDB instance to run tests against.
 
 This starts an instance of DynamoDB Local (http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html) provided by Amazon and shuts it down once any proceeding tasks have completed. DynamoDB Local is packaged with the plugin and does not need to be downloaded separately. The plugin puts the DynamoDB Local libraries into your system's temp directory.
 
+## Important
+
+This has not yet been released to Clojars as I am awaiting information on whether the DynamoDB License allows packaging with other projects in this way.
+
 ## Usage
 
 Add `[lein-dynamodb-local "0.1.0"]` to the `:plugins` vector of your project.clj.
