@@ -39,20 +39,20 @@
       (io/copy zip-stream temp-zip))
     (.extractAll (ZipFile. temp-zip) dir)))
 
-(defn- delete-directory-on-shutdown
-  "Delete a directory when the JVM shuts down"
-  [dir]
+(defn- clean-up-on-shutdown
+  "Delete the temp directory and kill the DynamoDB Local process on JVM shutdown"
+  [dir dynamo-process]
   (.addShutdownHook (Runtime/getRuntime)
-                    (Thread. (fn [] (FileUtils/deleteDirectory (io/file dir))))))
+                    (Thread. (fn [] (doto dynamo-process (.destroy) (.waitFor))
+                               (FileUtils/deleteDirectory (io/file dir))))))
 
 (defn dynamodb-local
-  "Run a local DynamoDB for the lifetime of the given task"
+  "Run DynamoDB Local for the lifetime of the given task"
   [project & args]
-  (delete-directory-on-shutdown @temp-directory)
   (unpack-dynamo @temp-directory)
   (let [{:keys [port in-memory? db-path]} (dynamo-options project)
         dynamo-process (start-dynamo @temp-directory port in-memory? db-path)]
+    (clean-up-on-shutdown @temp-directory dynamo-process)
     (if (seq args)
-      (try (main/apply-task (first args) project (rest args))
-           (finally (doto dynamo-process (.destroy) (.waitFor))))
+      (main/apply-task (first args) project (rest args))
       (while true (Thread/sleep 5000)))))
