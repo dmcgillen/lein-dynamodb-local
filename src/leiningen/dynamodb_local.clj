@@ -54,5 +54,5 @@
         dynamo-process (start-dynamo @temp-directory port in-memory? db-path)]
     (if (seq args)
       (try (main/apply-task (first args) project (rest args))
-           (finally (.destroy dynamo-process)))
+           (finally (doto dynamo-process (.destroy) (.waitFor))))
       (while true (Thread/sleep 5000)))))
