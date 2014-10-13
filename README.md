@@ -3,7 +3,7 @@ lein-dynamodb-local
 
 A Leiningen 2 plugin providing a local DynamoDB instance to run tests against.
 
-This starts an instance of DynamoDB Local (http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html) provided by Amazon and shuts it down once any proceeding tasks have completed. DynamoDB Local is packaged with the plugin and does not need to be downloaded separately. The plugin puts the DynamoDB Local libraries into your system's temp directory.
+This starts an instance of DynamoDB Local (http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html) provided by Amazon and shuts it down once any proceeding tasks have completed. DynamoDB Local is packaged with the plugin and does not need to be downloaded separately. The plugin unpacks the DynamoDB Local libraries into your system's temp directory, and removes them upon task completion.
 
 ## Important
 
@@ -25,7 +25,7 @@ DynamoDB Local can be started without running any other tasks if you so wish:
 
 Killing the process (e.g. with <kbd>Ctrl</kbd>+<kbd>C</kbd>) will shutdown DynamoDB Local.
 
-If run as a background process (e.g. `$ lein dynamodb-local &`) all child processes should be terminated upon completion (e.g. `pkill -P parent-process-id`).
+If run as a background process (e.g. `$ lein dynamodb-local &`) all child processes should be terminated upon completion (e.g. `pkill -P parent-process-id`). The plugin will handle the termination of the DynamoDB Local process.
 
 ### Configuration
 
