@@ -1,5 +1,6 @@
 (ns leiningen.dynamodb-local
   (:require [clojure.java.io :as io]
+            [clojure.string :as str]
             [leiningen.core.main :as main])
   (:import [java.nio.file Files Paths LinkOption Path]
            [java.nio.file.attribute FileAttribute]
@@ -28,12 +29,12 @@
 
 (defn- start-dynamo
   "Start DynamoDB Local with the given options"
-  [port in-memory? db-path]
+  [port in-memory? db-path jvm-opts]
   (let [lib-path (str (io/file dynamo-directory "DynamoDBLocal_lib"))
         jar-path (str (io/file dynamo-directory "DynamoDBLocal.jar"))
-        command (cond-> (format "java -Djava.library.path=%s -jar %s -port %s" lib-path jar-path port)
-                        in-memory? (str " -inMemory")
-                        (and (seq db-path) (not in-memory?)) (str " -dbPath " db-path))]
+        command (cond-> (format "java %s -Djava.library.path=%s -jar %s -port %s" (str/join " " jvm-opts) lib-path jar-path port)
+                  in-memory? (str " -inMemory")
+                  (and (seq db-path) (not in-memory?)) (str " -dbPath " db-path))]
     (.exec (Runtime/getRuntime) command)))
 
 (defn dynamo-options
@@ -69,8 +70,8 @@
   "Run DynamoDB Local for the lifetime of the given task"
   [project & args]
   (ensure-installed)
-  (let [{:keys [port in-memory? db-path]} (dynamo-options project)
-        dynamo-process (start-dynamo port in-memory? db-path)]
+  (let [{:keys [port in-memory? db-path jvm-opts]} (dynamo-options project)
+        dynamo-process (start-dynamo port in-memory? db-path jvm-opts)]
     (main/info "dynamodb-local: Started DynamoDB Local")
     (clean-up-on-shutdown dynamo-process)
     (if (seq args)
