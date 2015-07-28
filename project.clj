@@ -1,4 +1,4 @@
-(defproject lein-dynamodb-local "0.2.4-SNAPSHOT"
+(defproject lein-dynamodb-local "0.2.4"
   :description "A Leiningen plugin for providing a local DynamoDB instance"
   :url "https://github.com/dmcgillen/lein-dynamodb-local"
   :license {:name "Eclipse Public License"
