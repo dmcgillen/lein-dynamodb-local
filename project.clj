@@ -4,8 +4,6 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :eval-in-leiningen true
-  :dependencies [[commons-io/commons-io "2.4"]
-                 [net.lingala.zip4j/zip4j "1.3.2"]]
-  :plugins [[lein-release "1.0.5"]]
+  :dependencies [[net.lingala.zip4j/zip4j "1.3.2"]]
   :deploy-repositories [["releases" {:url "https://clojars.org/repo"
                                      :creds :gpg}]])

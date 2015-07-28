@@ -3,7 +3,6 @@
             [leiningen.core.main :as main])
   (:import [java.nio.file Files Paths LinkOption Path]
            [java.nio.file.attribute FileAttribute]
-           [org.apache.commons.io FileUtils]
            [net.lingala.zip4j.core ZipFile]))
 
 (def download-url "http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.zip")
