@@ -46,12 +46,12 @@
          (:dynamodb-local project)))
 
 (defn download-dynamo [url]
-  (println "downloading dynamo")
+  (main/info "dynamodb-local: Downloading DynamoDB Local")
   (ensure-dynamo-directory)
   (io/copy (io/input-stream (io/as-url url)) (io/as-file (str dynamo-directory "/" "dynamo.zip"))))
 
 (defn unpack-dynamo []
-  (println "unpacking dynamo")
+  (main/info "dynamodb-local: Unpacking DynamoDB Local")
   (let [zip-file (->path dynamo-directory "dynamo.zip")]
     (.extractAll (ZipFile. (str zip-file)) dynamo-directory)))
 
@@ -72,7 +72,7 @@
   (ensure-installed)
   (let [{:keys [port in-memory? db-path]} (dynamo-options project)
         dynamo-process (start-dynamo port in-memory? db-path)]
-    (println "started dynamo")
+    (main/info "dynamodb-local: Started DynamoDB Local")
     (clean-up-on-shutdown dynamo-process)
     (if (seq args)
       (main/apply-task (first args) project (rest args))
