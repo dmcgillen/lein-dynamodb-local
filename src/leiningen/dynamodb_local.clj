@@ -26,6 +26,11 @@
       (-> (Files/createDirectory path (make-array FileAttribute 0))
           (.toString)))))
 
+(defn monitor-dynamo [process]
+  (future
+    (.waitFor process)
+    (main/info "dynamo exited with code:" (.exitValue process))))
+
 (defn- start-dynamo
   "Start DynamoDB Local with the given options"
   [port in-memory? db-path]
@@ -71,6 +76,7 @@
   (ensure-installed)
   (let [{:keys [port in-memory? db-path]} (dynamo-options project)
         dynamo-process (start-dynamo port in-memory? db-path)]
+    (monitor-process dynamo-process)
     (main/info "dynamodb-local: Started DynamoDB Local")
     (clean-up-on-shutdown dynamo-process)
     (if (seq args)
