@@ -46,7 +46,7 @@
          (:dynamodb-local project)))
 
 (defn download-dynamo [url]
-  (main/info "dynamodb-local: Downloading DynamoDB Local")
+  (main/info "dynamodb-local: Downloading DynamoDB Local to" dynamo-directory)
   (ensure-dynamo-directory)
   (io/copy (io/input-stream (io/as-url url)) (io/as-file (str dynamo-directory "/" "dynamo.zip"))))
 
