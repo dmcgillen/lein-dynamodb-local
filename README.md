@@ -56,6 +56,14 @@ Note: This should not be used in conjunction with the `:in-memory?` parameter. I
 :dynamodb-local {:db-path "/path/to/desired/db/output/"}
 ```
 
+#### :jvm-opts
+
+Pass JVM options to the DynamoDB process. Behaves the same as the 'normal' :jvm-opts in a project.clj
+
+```clojure
+:dynamodb-local {:jvm-opts ["-server" "-Xmx512m"]}
+```
+
 ## License
 
 Copyright © 2014 Donovan McGillen
