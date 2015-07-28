@@ -41,7 +41,7 @@
   [project]
   (merge {:port 8000
           :in-memory? false
-          :db-path "."}
+          :db-path dynamo-directory}
          (:dynamodb-local project)))
 
 (defn download-dynamo [url]
