@@ -8,7 +8,7 @@
 
 (def download-url "http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.zip")
 
-(def dynamo-directory "lein-dynamodb-local")
+(def dynamo-directory ".lein-dynamodb-local")
 
 (defn ->path [str & strs]
   {:pre [(string? str) (every? string? strs)]}
