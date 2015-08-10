@@ -2,13 +2,14 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [leiningen.core.main :as main])
-  (:import [java.nio.file Files Paths LinkOption Path]
+  (:import [java.io File]
+           [java.nio.file Files Paths LinkOption Path]
            [java.nio.file.attribute FileAttribute]
            [net.lingala.zip4j.core ZipFile]))
 
 (def download-url "http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.zip")
 
-(def dynamo-directory ".lein-dynamodb-local")
+(def dynamo-directory (str (System/getProperty "user.home") File/separator ".lein-dynamodb-local"))
 
 (defn ->path [str & strs]
   {:pre [(string? str) (every? string? strs)]}
