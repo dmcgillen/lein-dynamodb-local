@@ -36,6 +36,8 @@ Set the port that you want DynamoDB Local to run on (defaults to 8000).
 :dynamodb-local {:port 12345}
 ```
 
+It is also possible to set the port by using the environment variable `DYNAMODB_PORT`.
+
 #### :in-memory?
 
 Set if you want DynamoDB Local to be run in memory (defaults to false).

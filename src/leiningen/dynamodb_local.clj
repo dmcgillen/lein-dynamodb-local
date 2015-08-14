@@ -1,6 +1,7 @@
 (ns leiningen.dynamodb-local
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
+            [environ.core :refer [env]]
             [leiningen.core.main :as main])
   (:import [java.io File]
            [java.nio.file Files Paths LinkOption Path]
@@ -41,7 +42,7 @@
 (defn dynamo-options
   "Use DynamoDB Local options provided or default values"
   [project]
-  (merge {:port 8000
+  (merge {:port (Integer/valueOf (env :dynamodb-port "8000"))
           :in-memory? false
           :db-path dynamo-directory}
          (:dynamodb-local project)))
