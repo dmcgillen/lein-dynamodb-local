@@ -48,6 +48,15 @@ Note: This should not be used in conjunction with the `:db-path` parameter. If i
 :dynamodb-local {:in-memory? true}
 ```
 
+#### :shared-db?
+
+Set if you want DynamoDB Local use a shared db rather than have separate files for each region/credentials combo. See the `-sharedDb`
+switch documented [here](http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html) for more info.
+
+```clojure
+:dynamodb-local {:shared-db? true}
+```
+
 #### :db-path
 
 Set the path that DynamoDB Local will write its database file to (defaults to ./.lein-dynamodb-local). If a relative path is used, it will be relative to the current directory.
