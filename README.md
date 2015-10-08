@@ -1,4 +1,4 @@
-lein-dynamodb-local
+lein-dynamodb-local [![Build Status](https://travis-ci.org/dmcgillen/lein-dynamodb-local.svg)](https://travis-ci.org/dmcgillen/lein-dynamodb-local)
 ===================
 
 A Leiningen 2 plugin providing a local DynamoDB instance to run tests against.
