@@ -38,17 +38,6 @@
       (-> (Files/createDirectory path (make-array FileAttribute 0))
           (.toString)))))
 
-(defn- start-dynamo
-  "Start DynamoDB Local with the given options."
-  [port in-memory? shared-db? db-path jvm-opts]
-  (let [lib-path (str (io/file dynamo-directory "DynamoDBLocal_lib"))
-        jar-path (str (io/file dynamo-directory "DynamoDBLocal.jar"))
-        command (cond-> (format "java %s -Djava.library.path=%s -jar %s -port %s" (str/join " " jvm-opts) lib-path jar-path port)
-                        in-memory? (str " -inMemory")
-                        shared-db? (str " -sharedDb")
-                        (and (seq db-path) (not in-memory?)) (str " -dbPath " db-path))]
-    (.exec (Runtime/getRuntime) command)))
-
 (defn- dynamo-options
   "Use DynamoDB Local options provided or default values."
   [project]
@@ -56,6 +45,24 @@
           :in-memory? false
           :db-path dynamo-directory}
          (:dynamodb-local project)))
+
+(defn- build-dynamo-command
+  "Build a java command to start DynamoDB Local with the required
+  options."
+  [project]
+  (let [{:keys [port in-memory? shared-db? db-path jvm-opts]} (dynamo-options project)
+        lib-path (str (io/file dynamo-directory "DynamoDBLocal_lib"))
+        jar-path (str (io/file dynamo-directory "DynamoDBLocal.jar"))]
+    (cond-> (format "java %s -Djava.library.path=%s -jar %s -port %s" (str/join " " jvm-opts) lib-path jar-path port)
+            in-memory? (str " -inMemory")
+            shared-db? (str " -sharedDb")
+            (and (seq db-path) (not in-memory?)) (str " -dbPath " db-path))))
+
+(defn- start-dynamo
+  "Start DynamoDB Local with the desired options."
+  [project]
+  (->> (build-dynamo-command project)
+       (.exec (Runtime/getRuntime))))
 
 (defn- download-dynamo
   "Download DynamoDB Local from Amazon."
@@ -88,8 +95,7 @@
   "Run DynamoDB Local for the lifetime of the given task."
   [project & args]
   (ensure-installed)
-  (let [{:keys [port in-memory? shared-db? db-path jvm-opts]} (dynamo-options project)
-        dynamo-process (start-dynamo port in-memory? shared-db? db-path jvm-opts)]
+  (let [dynamo-process (start-dynamo project)]
     (main/info "dynamodb-local: Started DynamoDB Local")
     (clean-up-on-shutdown dynamo-process)
     (if (seq args)
