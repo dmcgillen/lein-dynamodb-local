@@ -85,11 +85,13 @@
     (download-dynamo download-url)
     (unpack-dynamo)))
 
-(defn- clean-up-on-shutdown
+(defn- handle-shutdown
   "Kill the DynamoDB Local process on JVM shutdown."
   [dynamo-process]
   (.addShutdownHook (Runtime/getRuntime)
-                    (Thread. (fn [] (doto dynamo-process (.destroy) (.waitFor))))))
+                    (Thread. (fn []
+                               (doto dynamo-process (.destroy) (.waitFor))
+                               (main/info "dynamodb-local: Exited with code:" (.exitValue dynamo-process))))))
 
 (defn dynamodb-local
   "Run DynamoDB Local for the lifetime of the given task."
@@ -97,7 +99,7 @@
   (ensure-installed)
   (let [dynamo-process (start-dynamo project)]
     (main/info "dynamodb-local: Started DynamoDB Local")
-    (clean-up-on-shutdown dynamo-process)
+    (handle-shutdown dynamo-process)
     (if (seq args)
       (main/apply-task (first args) project (rest args))
       (while true (Thread/sleep 5000)))))
