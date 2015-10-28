@@ -43,7 +43,8 @@
          (let [project {:some-key "some-val"
                         :dynamodb-local ?dynamodb-local-config}]
            (build-dynamo-command project) => (str "java  " dynamo-lib-paths " -port " ?port " -dbPath " dynamo-directory)
-           (provided (env :dynamodb-port "8000") => "7777")))
+           (provided
+            (env :dynamodb-port "8000") => "7777")))
    ?dynamodb-local-config ?port
    {}                     "7777"
    {:port "9999"}         "9999")
