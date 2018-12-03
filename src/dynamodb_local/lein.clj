@@ -6,8 +6,7 @@
   "Run DynamoDB Local for the lifetime of the given task."
   [project & args]
   (core/ensure-installed main/info)
-  (let [dynamo-process (core/start-dynamo project)]
-    (main/info "dynamodb-local: Started DynamoDB Local")
+  (let [dynamo-process (core/start-dynamo main/info project)]
     (core/handle-shutdown main/info dynamo-process)
     (if (seq args)
       (main/apply-task (first args) project (rest args))

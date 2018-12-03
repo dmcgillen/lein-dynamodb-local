@@ -13,6 +13,5 @@
   [p project CONFIG edn "The configuration of the dynamo db process"]
   (boot/with-pass-thru _
     (core/ensure-installed info)
-    (let [dynamo-process (core/start-dynamo project)]
-      (info "dynamodb-local: Started DynamoDB Local")
+    (let [dynamo-process (core/start-dynamo info project)]
       (core/handle-shutdown info dynamo-process))))

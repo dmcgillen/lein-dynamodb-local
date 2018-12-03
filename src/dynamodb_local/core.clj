@@ -59,9 +59,11 @@
 
 (defn start-dynamo
   "Start DynamoDB Local with the desired options."
-  [project]
-  (->> (build-dynamo-command project)
-       (.exec (Runtime/getRuntime))))
+  [log project]
+  (let [dynamo-process (->> (build-dynamo-command project)
+                            (.exec (Runtime/getRuntime)))]
+    (log "dynamodb-local: Started DynamoDB Local" project)
+    dynamo-process))
 
 (defn- download-dynamo
   "Download DynamoDB Local from Amazon."
