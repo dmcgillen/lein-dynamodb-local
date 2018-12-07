@@ -1,6 +1,8 @@
 lein-dynamodb-local [![Build Status](https://travis-ci.org/dmcgillen/lein-dynamodb-local.svg)](https://travis-ci.org/dmcgillen/lein-dynamodb-local)
 ===================
 
+# Deprecated. Please use [clj-dynamodb-local](https://github.com/dmcgillen/clj-dynamodb-local) which adds support for boot.
+
 A Leiningen 2 plugin providing a local DynamoDB instance to run tests against.
 
 This starts an instance of DynamoDB Local (http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tools.DynamoDBLocal.html) provided by Amazon and shuts it down once any proceeding tasks have completed. DynamoDB Local is downloaded on first run, and stored in ~/.lein-dynamodb-local.
